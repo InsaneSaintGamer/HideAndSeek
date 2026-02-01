@@ -1,0 +1,146 @@
+@import "/Colors.scss";
+
+Scoreboard {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #1115;
+	justify-content: center;
+	align-items: center;
+	font-family: Fredoka;
+	font-weight: 500;
+	font-size: 25px;
+	color: #2F3032;
+	backdrop-filter: blur( 10px );
+	transition: all 0.1s ease-out;
+
+	.table {
+		position: absolute;
+		top: 150px;
+		width: 850px;
+		height: 800px;
+		display: flex;
+		flex-direction: row;
+		background-color: #fafaf1;
+		border-radius: 20px;
+		overflow: hidden;
+	}
+
+	.column {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		//overflow-y: scroll;
+	}
+
+	.divider {
+		width: 4px;
+		background-color: white;
+	}
+
+	.header {
+		width: 100%;
+		opacity: 0.5;
+		display: flex;
+		flex-shrink: 0;
+		padding-left: 30px;
+	}
+
+	.body {
+		flex: 1;
+		overflow-y: scroll;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.hiderrows {
+		width: 100%;
+		display: flex;
+		flex-shrink: 0;
+		background-color: $blue;
+	}
+
+	.seekerrows {
+		width: 100%;
+		display: flex;
+		flex-shrink: 0;
+		background-color: $red;
+	}
+
+		.hiderrows:nth-child(odd), .seekerrows:nth-child(odd) {
+			filter: brightness(50%);
+		}
+
+	.name {
+		width: 80%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		padding-left: 20px;
+		display: flex;
+		align-items: center;
+	}
+
+	.kick {
+		padding-right: 20px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&.open {
+		pointer-events: all;
+	}
+
+	&.hidden {
+		opacity: 0.0;
+		transition: all 0.2s ease-in;
+	}
+
+	.kick-confirm {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: #fafaf1;
+		border-radius: 20px;
+		padding: 20px 30px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0 0 10px #0005;
+		text-align: center;
+		z-index: 100;
+	}
+
+	.kick-title {
+		font-size: 20px;
+		margin-bottom: 15px;
+	}
+
+	.kick-buttons {
+		display: flex;
+		gap: 20px;
+	}
+
+	.kick-yes {
+		background-color: seagreen;
+	}
+
+	.kick-no {
+		background-color: firebrick;
+	}
+
+	.kick-buttons button {
+		font-size: 18px;
+		padding: 6px 16px;
+		border: none;
+		border-radius: 8px;
+		cursor: pointer;
+		color: white;
+		transition: background-color 0.2s ease;
+	}
+}

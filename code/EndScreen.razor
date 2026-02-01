@@ -1,0 +1,27 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Sandbox
+
+<root>
+    @if (stateoptions.winningteam == StateOptions.WinningTeam.Hiders)
+    {
+        <div class="HiderWin"> HIDERS WIN! </div>
+    }
+
+    @if (stateoptions.winningteam == StateOptions.WinningTeam.Seekers)
+    {
+        <div class="SeekerWin"> SEEKERS WIN! </div>
+    }
+</root>
+
+@code
+{
+    public StateOptions stateoptions;
+
+    protected override void OnAwake()
+    {
+        stateoptions = Scene.Get<StateOptions>();
+    }
+    protected override int BuildHash() => System.HashCode.Combine(stateoptions.winningteam);
+}

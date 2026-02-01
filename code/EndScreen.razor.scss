@@ -1,0 +1,46 @@
+EndScreen {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	font-family: Fredoka;
+	font-weight: bold;
+	display: flex;
+
+	.HiderWin {
+		position: relative;
+		font-size: 100px;
+		font-color: #efe3c5;
+		text-shadow: 2px 2px 2px #000a;
+		padding: 42px 56px;
+		background-color: #6893d2;
+		justify-content: center;
+		align-items: center;
+		border-radius: 40px;
+
+		.HiderWinTrim {
+			position: absolute;
+			top: 6px;
+			left: 6px;
+			right: 6px;
+			bottom: 6px;
+			border: 3px solid #efe3c5;
+			border-radius: 40px;
+			filter: drop-shadow(0px 4px 6px black);
+		}
+	}
+
+	.SeekerWin {
+		font-size: 50px;
+		font-color: #efe3c5;
+		text-shadow: 2px 2px 2px #000a;
+		padding: 36px 60px;
+		background-color: #d46241;
+		justify-content: center;
+		align-items: center;
+		border-radius: 20px;
+	}
+}

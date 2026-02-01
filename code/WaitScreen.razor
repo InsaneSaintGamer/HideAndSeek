@@ -1,0 +1,23 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Sandbox
+
+<root>
+    @if (stateoptions.CurrentState == StateOptions.GameState.Waiting)
+    {
+        <div class="title"> Waiting for one additional player. </div>
+    }
+</root>
+
+@code
+{
+    public StateOptions stateoptions;
+
+    protected override void OnAwake()
+    {
+        stateoptions = Scene.Get<StateOptions>();
+    }
+
+    protected override int BuildHash() => System.HashCode.Combine(stateoptions.CurrentState);
+}

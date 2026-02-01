@@ -1,0 +1,34 @@
+@using Sandbox;
+@using Sandbox.UI;
+@using System;
+@inherits PanelComponent
+@namespace Sandbox
+
+<root>
+    <div class="TopSection">
+
+        <div class="LeftHider"> @stateoptions.HiderTotal </div>
+
+        <div class="CenterTime">
+            @TimeText
+        </div>
+
+        <div class="RightSeeker"> @stateoptions.SeekerTotal </div>
+
+    </div>
+</root>
+
+@code
+{
+    public GameTimer gametimer;
+    public StateOptions stateoptions;
+
+    protected override void OnAwake()
+    {
+        gametimer = Scene.Get<GameTimer>();
+        stateoptions = Scene.Get<StateOptions>();
+    }
+    string TimeText => $"{(int)(gametimer.RemainingTime / 60):00}:{(int)(gametimer.RemainingTime % 60):00}";
+
+    protected override int BuildHash() => System.HashCode.Combine((int)gametimer.RemainingTime, stateoptions.HiderTotal, stateoptions.SeekerTotal);
+}

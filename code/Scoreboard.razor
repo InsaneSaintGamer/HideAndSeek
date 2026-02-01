@@ -1,0 +1,149 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Sandbox
+
+
+<root>
+    <div class="table">
+
+        <div class="column">
+            <div class="header">Hiders</div>
+            <div class="body">
+            @foreach (var Player in Scene.GetAll<TeamOptions>())
+            {
+                <div class="hiderrows">
+
+                    @if (Player.team == TeamOptions.Team.Hider)
+                    {
+                        <div class="name">
+                            @foreach (var entry in Connection.All)
+                            {
+                                @if (entry.IsHost)
+                                {
+                                    <div style="color: darkgoldenrod;">></div>
+                                }
+                                @if (entry.Id == Player.Network.OwnerId)
+                                {
+                                    @entry.DisplayName
+                                }
+                            }
+                        </div> <!--name end--> 
+                        <div class="kick">
+                            @{
+                                Connection playerConnection = null;
+
+                                foreach (var conn in Connection.All)
+                                {
+                                    if (conn.Id == Player.Network.OwnerId)
+                                    {
+                                        playerConnection = conn;
+                                        break;
+                                    }
+                                }
+                            }
+                            <button @onclick="@(() => ConfirmKick(playerConnection))">
+                                <img src="icons/gavel.svg" alt="Kick" width="18" height="18" />
+                            </button>
+
+                        </div> <!--kick end-->
+                    }
+                </div> <!--hiderrows end-->
+            }
+            </div> <!--body end-->
+        </div> <!--column end-->
+
+        <div class="divider"></div>
+
+        <div class="column">
+            <div class="header">Seekers</div>
+
+            @foreach (var Player in Scene.GetAll<TeamOptions>())
+            {
+                <div class="seekerrows">
+
+                    @if (Player.team == TeamOptions.Team.Seeker)
+                    {
+                        <div class="name">
+                            @foreach (var entry in Connection.All)
+                            {
+                                @if (entry.IsHost)
+                                {
+                                    <div style="color: darkgoldenrod;">></div>
+                                }
+                                @if (entry.Id == Player.Network.OwnerId)
+                                {
+                                    @entry.DisplayName
+                                }
+                            }
+                        </div> <!--name end-->
+                        <div class="kick">
+                            @{
+                                Connection playerConnection = null;
+
+                                foreach (var conn in Connection.All)
+                                {
+                                    if (conn.Id == Player.Network.OwnerId)
+                                    {
+                                        playerConnection = conn;
+                                        break;
+                                    }
+                                }
+                            }
+                            <button @onclick="@(() => KickPlayer(playerConnection))"> <img src="icons/gavel.svg" alt="Gavel"> </button>
+                        </div> <!--kick end-->
+                    }
+                </div> <!--seekerrows end-->
+            }
+        </div> <!--column end-->
+    </div> <!--table end-->
+
+    <!--Kick Confirmation Popup-->
+    @if (PendingKickTarget != null)
+    {
+        <div class="kick-confirm">
+            <div class="kick-title">Kick: @PendingKickTarget.DisplayName</div>
+
+            <div class="kick-buttons">
+                <button class="kick-yes" @onclick="@(() => KickPlayer(PendingKickTarget))"> <img src="icons/check_circle.svg" alt="Check"> Yes </button>
+                <button class="kick-no" @onclick="@(() => CancelKick())"> <img src="icons/cancel_circle.svg" alt="Cancel"> No </button>
+            </div> <!--kick-buttons end-->
+        </div> <!--kick-confirm end-->
+    }
+
+</root>
+
+@code
+{
+        private Connection PendingKickTarget;
+
+        protected override void OnUpdate()
+        {
+            SetClass("hidden", !Input.Down("score"));
+            SetClass("open", Input.Down("score"));
+            if (!Input.Down("score"))
+                PendingKickTarget = null;
+        }
+                        
+        void KickPlayer(Connection connection)
+        {
+                connection.Kick("Kicked by host.");
+                PendingKickTarget = null;
+            
+        }
+
+        void ConfirmKick(Connection connection)
+        {
+        if (connection != null && !connection.IsHost && connection != Connection.Local)
+        {
+            PendingKickTarget = connection;
+        }
+        }
+
+        void CancelKick()
+        {
+            PendingKickTarget = null;
+        }
+
+    protected override int BuildHash() => System.HashCode.Combine(RealTime.Now.CeilToInt());
+}

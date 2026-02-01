@@ -1,0 +1,39 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Sandbox
+
+<root>
+    @if (IsProxy) return;
+    <div class="BottomLeft">
+        <div class="BottomLeftTop" style="background-color:@(TeamsSelect.team == TeamOptions.Team.Seeker ? "indianred" : "cornflowerblue")"> @TeamsSelect.team </div>
+
+        <div class="StaminaContainer">
+
+            <div class="inner">
+                <div class="fill" style="width: @(moremovement.Stamina / moremovement.MaxStamina * 100f)%"></div>
+                <div class="TextStamina">@moremovement.Stamina / @moremovement.MaxStamina</div>
+            </div>
+            <div class="stamina">
+            </div>
+        </div>
+
+    </div>
+
+</root>
+
+@code
+{
+    [Property] public TeamOptions TeamsSelect { get; set; }
+    [Property] public GameObject Player { get; set; }
+    private MoreMovement moremovement;
+    private PlayerController playerController;
+
+    protected override void OnAwake()
+    {
+        moremovement = Player.GetComponent<MoreMovement>();
+        playerController = Player.GetComponent<PlayerController>();
+    }
+
+    protected override int BuildHash() => System.HashCode.Combine(moremovement.Stamina, TeamsSelect.team);
+}
